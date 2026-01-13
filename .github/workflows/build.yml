@@ -21,6 +21,10 @@ on:
         description: Build boards with bootloader padding (espruinoboard, -wifi, pico)
         type: boolean
         default: true
+      enable_psram:
+        description: Build custom PSRAM boards (ESP32S3_8MB)
+        type: boolean
+        default: true
       enable_emulator:
         description: Build emulator for banglejs
         type: boolean
@@ -148,7 +152,7 @@ jobs:
           bin/*.zip
  
 
-  # espressif builds - do not need python 3.9
+  # espressif builds
   build_espressif:
     if: ${{ github.event_name != 'workflow_dispatch' || inputs.enable_main }}
     runs-on: ubuntu-24.04
@@ -157,6 +161,39 @@ jobs:
       matrix:
         board: [ESP32, ESP8266_BOARD, ESP8266_4MB, ESP32C3_IDF4, ESP32S3_IDF4]
       # try and build for all devices even if one fails
+      fail-fast: false 
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: make ${{ matrix.board }}
+      env:
+        TRAVIS: 1
+        RELEASE: 1
+        BOARD: ${{ matrix.board }} 
+        UPLOADTOKEN: ${{ secrets.UPLOADTOKEN }}  
+      run: |
+        source ./scripts/provision.sh  ${{ matrix.board }}
+        make
+        ./scripts/ci_upload.sh
+    - name: Upload ${{ matrix.board }} build artifact
+      uses: actions/upload-artifact@v5.0.0
+      with:
+        name: ${{ matrix.board }}
+        path: |
+          bin/*.bin
+          bin/*.uf2
+          bin/*.hex
+          bin/*.tgz
+          bin/*.zip
+
+  # Dedicated PSRAM Build Job
+  build_psram:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.enable_psram }}
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        board: [ESP32S3_8MB]
       fail-fast: false 
     steps:
     - uses: actions/checkout@v6
@@ -213,12 +250,3 @@ jobs:
         name: ${{ matrix.board }}
         path: |
           bin/*.js
- 
-# Disable doc building for now 
-#  docs:
-#    runs-on: ubuntu-24.04      
-#    steps:
-#    - name: makedocs
-#      run: make docs
-
-
