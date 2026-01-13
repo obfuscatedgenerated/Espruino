@@ -9,7 +9,7 @@ info = {
  'espruino_page_link'       : 'ESP32',
  'default_console'          : "EV_SERIAL1",
  'default_console_baudrate' : "115200",
- 'variables'                : 65535, 
+ 'variables'                : 16383, 
  'io_buffer_size'           : 4096,
  'binary_name'              : 'espruino_%v_esp32s3_8mb.bin',
  'build' : {
