@@ -9,38 +9,32 @@ info = {
  'espruino_page_link'       : 'ESP32',
  'default_console'          : "EV_SERIAL1",
  'default_console_baudrate' : "115200",
- 'variables'                : 65535, # Increased to force allocation into PSRAM
+ 'variables'                : 65535, 
  'io_buffer_size'           : 4096,
  'binary_name'              : 'espruino_%v_esp32s3_8mb.bin',
  'build' : {
    'optimizeflags' : '-Og',
    'libraries' : [
-     'ESP32',
-     'NET',
-     'GRAPHICS',
-     'CRYPTO','SHA256','SHA512',
-     'TLS',
-     'TELNET',
-     'NEOPIXEL',
-     'FILESYSTEM',
-     'BLUETOOTH'
+     'ESP32', 'NET', 'GRAPHICS', 'CRYPTO', 'SHA256', 'SHA512',
+     'TLS', 'TELNET', 'NEOPIXEL', 'FILESYSTEM', 'BLUETOOTH'
    ],
    'makefile' : [
      'DEFINES+=-DESP_PLATFORM -DESP32=1',
      'DEFINES+=-DESP_STACK_SIZE=25000',
-     'DEFINES+=-DJSVAR_MALLOC', # Required for PSRAM variable allocation
+     'DEFINES+=-DJSVAR_MALLOC', 
      'DEFINES+=-DUSE_FONT_6X8',
      'DEFINES+=-DUSB_CDC',
      'ESP32_FLASH_MAX=16777216',
+     
+     # PSRAM HARDWARE CONFIG (Required for S3R8 Octal RAM)
      'DEFINES+=-DCONFIG_SPIRAM=1',
      'DEFINES+=-DCONFIG_SPIRAM_BOOT_INIT=1',
      'DEFINES+=-DCONFIG_SPIRAM_TYPE_AUTO=1',
-     'DEFINES+=-DCONFIG_SPIRAM_SIZE=8388608',
+     'DEFINES+=-DCONFIG_SPIRAM_MODE_OCT=1', # Changed from QUAD to OCT
      'DEFINES+=-DCONFIG_SPIRAM_SPEED_80M=1',
-     'DEFINES+=-DCONFIG_SPIRAM_MODE_QUAD=1',
+     
+     # ALLOCATION STRATEGY
      'DEFINES+=-DCONFIG_SPIRAM_USE_MALLOC=1',
-     'DEFINES+=-DCONFIG_ESP32S3_SPIRAM_SUPPORT=1',
-     'DEFINES+=-DCONFIG_ESP32_WIFI_CACHE_TX_BUFFER_NUM=CONFIG_ESP32_WIFI_DYNAMIC_TX_BUFFER_NUM'
    ]
  }
 };
