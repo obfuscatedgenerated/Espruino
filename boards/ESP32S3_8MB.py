@@ -23,7 +23,8 @@ info = {
      'DEFINES+=-DESP_STACK_SIZE=25000',
      'DEFINES+=-DJSVAR_MALLOC', 
      'DEFINES+=-DUSE_FONT_6X8',
-     'DEFINES+=-DUSB_CDC',
+     # USB_CDC not supported on ESP32-S3 in initConsole() - use UART/USB-Serial-JTAG instead
+     # 'DEFINES+=-DUSB_CDC',
      'ESP32_FLASH_MAX=16777216',
 
     'DEFINES+=-DCONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=16384', 
