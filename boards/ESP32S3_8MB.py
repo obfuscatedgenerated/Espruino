@@ -9,7 +9,7 @@ info = {
  'espruino_page_link'       : 'ESP32',
  'default_console'          : "EV_SERIAL1",
  'default_console_baudrate' : "115200",
- 'variables'                : 65535, 
+ 'variables'                : 8191,  # Very conservative - 13-byte JsVar structure, ~107KB total allocation 
  'io_buffer_size'           : 4096,
  'binary_name'              : 'espruino_%v_esp32s3_8mb.bin',
  'build' : {
@@ -23,27 +23,9 @@ info = {
      'DEFINES+=-DESP_STACK_SIZE=25000',
      'DEFINES+=-DJSVAR_MALLOC', 
      'DEFINES+=-DUSE_FONT_6X8',
-     'DEFINES+=-DUSB_CDC',
+     # USB_CDC not supported on ESP32-S3 in initConsole() - use UART/USB-Serial-JTAG instead
+     # 'DEFINES+=-DUSB_CDC',
      'ESP32_FLASH_MAX=16777216',
-
-    'DEFINES+=-DCONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=16384', 
-     'DEFINES+=-DCONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL=65536',
-     
-     # PSRAM HARDWARE CONFIG (Required for S3R8 Octal RAM)
-     'DEFINES+=-DCONFIG_SPIRAM=1',
-     'DEFINES+=-DCONFIG_SPIRAM_BOOT_INIT=1',
-     'DEFINES+=-DCONFIG_SPIRAM_TYPE_AUTO=1',
-     'DEFINES+=-DCONFIG_SPIRAM_MODE_OCT=1',
-    'DEFINES+=-DCONFIG_SPIRAM_CACHE_WORKAROUND=1', 
-     'DEFINES+=-DCONFIG_SPIRAM_RODATA=1',
-     'DEFINES+=-DCONFIG_SPIRAM_FETCH_INSTRUCTIONS=1',
-    
-     'DEFINES+=-DCONFIG_SPIRAM_SPEED_80M=1',
-    'DEFINES+=-DCONFIG_SPIRAM_FETCH_INSTRUCTIONS=1',
-     'DEFINES+=-DCONFIG_SPIRAM_RODATA=1',
-     
-     # ALLOCATION STRATEGY
-     'DEFINES+=-DCONFIG_SPIRAM_USE_CAPS_ALLOC=1',
    ]
  }
 };
