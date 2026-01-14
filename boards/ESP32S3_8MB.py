@@ -9,7 +9,7 @@ info = {
  'espruino_page_link'       : 'ESP32',
  'default_console'          : "EV_SERIAL1",
  'default_console_baudrate' : "115200",
- 'variables'                : 16383,  # Conservative value - can increase after boot confirmed working 
+ 'variables'                : 8191,  # Very conservative - 13-byte JsVar, ~107KB allocation 
  'io_buffer_size'           : 4096,
  'binary_name'              : 'espruino_%v_esp32s3_8mb.bin',
  'build' : {
