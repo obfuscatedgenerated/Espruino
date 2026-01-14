@@ -26,7 +26,7 @@ info = {
      'DEFINES+=-DUSB_CDC',
      'ESP32_FLASH_MAX=16777216',
 
-    # PSRAM Memory Allocation - aligned with sdkconfig_s3
+     # PSRAM Memory Allocation - aligned with sdkconfig_s3
      'DEFINES+=-DCONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL=8192',
      'DEFINES+=-DCONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL=32768',
      
